@@ -1,20 +1,25 @@
-import {connect} from "@/dbCobfiguration/dbConfiguration";
+import { connect } from "@/dbCobfiguration/dbConfiguration";
 import User from "@/models/userModel";
-import {NextResponse} from "next/server";
-import bcryptjs from "bcryptjs"
+import { NextResponse } from "next/server";
+import bcryptjs from "bcryptjs";
 
 connect();
 
 export async function POST(request) {
 	try {
 		const reqBody = await request.json();
-		const { email, password } = reqBody;
+		const { identifier, password } = reqBody;
 
-		const user = await User.findOne({ email });
+		const user = await User.findOne({
+			$or: [
+				{ email: identifier },
+				{ username: identifier }
+			],
+		});
 
 		if (!user) {
 			return NextResponse.json(
-				{ error: "Invalid email or password" },
+				{ error: "Invalid username or email" },
 				{ status: 401 }
 			);
 		}
@@ -22,18 +27,16 @@ export async function POST(request) {
 		const isMatch = await bcryptjs.compare(password, user.password);
 		if (!isMatch) {
 			return NextResponse.json(
-				{ error: "Invalid email or password" },
+				{ error: "Invalid password" },
 				{ status: 401 }
 			);
 		}
 
-		return NextResponse.json(
-			{
-				message: "Login successful",
-				success: true,
-				user
-			}
-		);
+		return NextResponse.json({
+			message: "Login successful",
+			success: true,
+			user,
+		});
 	} catch (error) {
 		return NextResponse.json(
 			{ error: error.message },
