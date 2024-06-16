@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
+// Define the user schema
 const userSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		required: [true, "Please provide a name"],
+	},
 	username: {
 		type: String,
 		required: [true, "Please provide a username"],
@@ -11,24 +16,29 @@ const userSchema = new mongoose.Schema({
 		required: [true, "Please provide an email"],
 		unique: true,
 	},
+	telephone: {
+		type: String,
+		required: [true, "Please provide a telephone number"],
+	},
 	password: {
 		type: String,
-		required: [true, "Please prvide a password"]
+		required: [true, "Please provide a password"],
 	},
-	isVerified: {
+	has_lost: {
 		type: Boolean,
-		default: false,
+		required: [true, "Please provide a value for has_lost"],
 	},
-	isAdmin: {
+	is_driver: {
 		type: Boolean,
-		default: false,
+		required: [true, "Please provide a value for is_driver"],
 	},
-	forgotPasswordToken: String,
-	forgotPasswordExpiry: Date,
-	VerifiedToken: String,
-	VerifiedTokenExpiry: Date,
+	owns_house: {
+		type: Boolean,
+		required: [true, "Please provide a value for owns_house"],
+	},
 });
 
+// Create the user model
 const User = mongoose.models.users || mongoose.model("users", userSchema);
 
 export default User;
