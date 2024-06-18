@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const lostItemSchema = new mongoose.Schema({
-	lost_item_id: {
-		type: String,
-		required: [true, "Please provide a lost item ID"],
-	},
 	category: {
 		type: String,
 	},
@@ -16,12 +12,6 @@ const lostItemSchema = new mongoose.Schema({
 		maxlength: 50,
 	},
 	description: {
-		type: String,
-	},
-	type_id: {
-		type: String,
-	},
-	object_id: {
 		type: String,
 	},
 	is_signaled: {

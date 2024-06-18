@@ -7,17 +7,14 @@ connect();
 export async function POST(request) {
 	try {
 		const reqBody = await request.json();
-		const { lost_item_id, category, brand, colour, description, type_id, object_id, is_signaled, user_id } = reqBody;
+		const { category, brand, colour, description, user_id } = reqBody;
 
 		const newLostItem = new LostItem({
-			lost_item_id,
 			category,
 			brand,
 			colour,
 			description,
-			type_id,
-			object_id,
-			is_signaled,
+			is_signaled: false,
 			user_id,
 		});
 
