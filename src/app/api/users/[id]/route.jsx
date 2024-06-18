@@ -54,14 +54,14 @@ export async function PUT(request, { params }) {
 
 		if (username) {
 			const existingUsername = await User.findOne({ username });
-			if (existingUser) {
+			if (existingUsername) {
 				return NextResponse.json({ error: 'Username already exists' }, { status: 400 });
 			}
 			user.username = username;
 		}
 		if (email) {
 			const existingUsername = await User.findOne({ email });
-			if (existingUser) {
+			if (existingUsername) {
 				return NextResponse.json({ error: 'Email already exists' }, { status: 400 });
 			}
 			user.email = email;
@@ -87,7 +87,7 @@ export async function PUT(request, { params }) {
 
 export async function DELETE(request, { params }) {
 	try {
-		const user = await User.findOne({ username: params.username });
+		const user = await User.findOne({ username: params.id });
 		if (!user) {
 			return NextResponse.json(
 				{ error: "User not found" },
